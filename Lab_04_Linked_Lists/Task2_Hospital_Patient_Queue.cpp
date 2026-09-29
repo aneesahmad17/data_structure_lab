@@ -1,10 +1,20 @@
 // Lab Task 2: Hospital Patient Queue (Singly Linked List)
 #include <iostream>
-#include <string>
 using namespace std;
 
+// ---------- Helper functions (written manually, no library functions) ----------
+// Copy one character array into another
+void copyText(char dest[], const char src[]) {
+    int i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
 struct Node {
-    string patientID;
+    char patientID[20];
     Node* next;
 };
 
@@ -14,9 +24,9 @@ public:
     PatientQueue() { head = nullptr; }
 
     // Add a new patient at the end of the list
-    void addPatient(string id) {
+    void addPatient(const char id[]) {
         Node* newNode = new Node;
-        newNode->patientID = id;
+        copyText(newNode->patientID, id);
         newNode->next = nullptr;
 
         if (head == nullptr) {
@@ -30,7 +40,7 @@ public:
     }
 
     // Display all waiting patients
-    void display(string title) {
+    void display(const char title[]) {
         cout << title << endl;
         if (head == nullptr) {
             cout << "No patients waiting." << endl;
@@ -69,7 +79,7 @@ public:
 int main() {
     PatientQueue queue;
     int choice;
-    string id;
+    char id[20];
 
     do {
         cout << "\n===== Hospital Patient Queue =====" << endl;

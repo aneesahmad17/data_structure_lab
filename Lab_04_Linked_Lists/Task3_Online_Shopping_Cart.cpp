@@ -1,10 +1,30 @@
 // Lab Task 3: Online Shopping Cart (Singly Linked List)
 #include <iostream>
-#include <string>
 using namespace std;
 
+// ---------- Helper functions (written manually, no library functions) ----------
+// Copy one character array into another
+void copyText(char dest[], const char src[]) {
+    int i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
+// Compare two character arrays, return true if they are equal
+bool isEqual(const char a[], const char b[]) {
+    int i = 0;
+    while (a[i] != '\0' && b[i] != '\0') {
+        if (a[i] != b[i]) return false;
+        i++;
+    }
+    return a[i] == b[i];
+}
+
 struct Node {
-    string productID;
+    char productID[20];
     Node* next;
 };
 
@@ -14,9 +34,9 @@ public:
     ShoppingCart() { head = nullptr; }
 
     // Add a product to the cart (at the end)
-    void addProduct(string id) {
+    void addProduct(const char id[]) {
         Node* newNode = new Node;
-        newNode->productID = id;
+        copyText(newNode->productID, id);
         newNode->next = nullptr;
 
         if (head == nullptr) {
@@ -30,7 +50,7 @@ public:
     }
 
     // Display all products in the cart
-    void display(string title) {
+    void display(const char title[]) {
         cout << title << endl;
         if (head == nullptr) {
             cout << "Cart is empty." << endl;
@@ -46,11 +66,11 @@ public:
     }
 
     // Remove a product using its Product ID
-    bool removeProduct(string id) {
+    bool removeProduct(const char id[]) {
         if (head == nullptr) return false;
 
         // Product is at the head
-        if (head->productID == id) {
+        if (isEqual(head->productID, id)) {
             Node* temp = head;
             head = head->next;
             delete temp;
@@ -61,7 +81,7 @@ public:
         Node* prev = head;
         Node* curr = head->next;
         while (curr != nullptr) {
-            if (curr->productID == id) {
+            if (isEqual(curr->productID, id)) {
                 prev->next = curr->next;
                 delete curr;
                 return true;
@@ -84,7 +104,7 @@ public:
 int main() {
     ShoppingCart cart;
     int choice;
-    string id;
+    char id[20];
 
     do {
         cout << "\n===== Online Shopping Cart =====" << endl;
